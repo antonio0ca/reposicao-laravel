@@ -2,6 +2,105 @@
 
 ---
 
+## Como rodar o sistema de autenticação
+
+### Pré-requisitos
+
+- PHP 8.2+
+- Composer
+- Node.js + npm
+- Um banco de dados (SQLite, MySQL ou PostgreSQL)
+
+### Passo a passo
+
+**1. Entrar na pasta do projeto**
+```bash
+cd src
+```
+
+**2. Instalar dependências PHP**
+```bash
+composer install
+```
+
+**3. Criar o arquivo de configuração**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+**4. Configurar o banco de dados**
+
+No arquivo `.env`, defina a conexão. Para SQLite (mais simples):
+```env
+DB_CONNECTION=sqlite
+```
+Depois crie o arquivo do banco:
+```bash
+touch database/database.sqlite
+```
+
+Para MySQL, altere no `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome_do_banco
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+```
+
+**5. Rodar as migrations (cria as tabelas)**
+```bash
+php artisan migrate
+```
+
+**6. Instalar dependências front-end e compilar assets**
+```bash
+npm install
+npm run build
+```
+
+**7. Iniciar o servidor**
+```bash
+php artisan serve
+```
+
+Acesse em: `http://localhost:8000`
+
+---
+
+### Rotas disponíveis
+
+| Rota | Método | Descrição | Acesso |
+|---|---|---|---|
+| `/` | GET | Página inicial | Público |
+| `/register` | GET / POST | Cadastro de usuário | Somente visitantes |
+| `/login` | GET / POST | Login | Somente visitantes |
+| `/dashboard` | GET | Painel do usuário | Autenticado |
+| `/profile` | GET / PATCH / DELETE | Editar perfil | Autenticado |
+| `/logout` | POST | Encerrar sessão | Autenticado |
+
+---
+
+### Estrutura de arquivos relevante
+
+```
+src/
+├── app/
+│   ├── Http/Controllers/Auth/    ← Controllers de autenticação
+│   └── Models/User.php           ← Model do usuário
+├── database/migrations/          ← Migration da tabela users
+├── resources/views/
+│   ├── auth/                     ← Telas de login e cadastro
+│   └── dashboard.blade.php       ← Painel pós-login
+└── routes/
+    ├── web.php                   ← Rotas principais
+    └── auth.php                  ← Rotas de autenticação
+```
+
+---
+
 ## Atividade 1 — Conceitos Web e Laravel
 
 **O que é programação no lado servidor?**
