@@ -12,6 +12,17 @@
 /.phpunit.cache
 /.vscode
 /.zed
+
+# AI tools
+.claude/
+CLAUDE.md
+.copilot/
+.github/copilot-instructions.md
+.aider*
+.windsurf/
+.codeium/
+.tabnine/
+*.ai-context
 /auth.json
 node_modules
 src/public/build
